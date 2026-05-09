@@ -117,46 +117,25 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
     </div>
     <div class="card">
       <p>Bienvenido, agente.</p>
-      <p>Tienes <span class="yellow">30 minutos</span> para completar la misión. Si lo consigues, recibirás tu recompensa.</p>
+      <p>Tienes <span class="yellow">30 minutos</span> para completar la misión y conseguir la receta de la <span class="yellow">mejor hamburguesa del mundo</span>.</p>
+      <p>El Agente B lleva tiempo buscando un cómplice lo suficientemente hábil como para conseguir el botín y desbloquear el premio. Cree que tú eres la persona indicada.</p>
       <p>Sigue las instrucciones. Usa tus ojos. Usa tu cabeza. Usa lo que te rodea.</p>
       <p class="dim" style="font-size:12px">El temporizador arrancará cuando pulses "INICIAR MISIÓN".</p>
     </div>
     <button class="btn" onclick="startGame()">▶ INICIAR MISIÓN</button>
   </div>
 
-  <!-- P0: EXPEDIENTE -->
-  <div id="p0" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:0%"></div></div>
-    <div class="stamp">NIVEL 0 — ACCESO</div>
-    <h1>Expediente Clasificado</h1>
-    <div class="sub">VERIFICACIÓN DE IDENTIDAD</div>
-    <div class="dossier">
-      <div class="field"><span class="field-label">AGENTE</span>CHICK-7</div>
-      <div class="field"><span class="field-label">MISIÓN</span>OPERACIÓN LINGOTE</div>
-      <div class="field"><span class="field-label">OBJETIVO</span>Acceder a la cámara acorazada</div>
-      <div class="field"><span class="field-label">INSTRUCCIÓN</span>El sistema requiere verificación. El número de tu mesa es tu primera clave.</div>
-    </div>
-    <div class="card" style="margin-top:16px">
-      <p style="font-size:13px">Introduce el <span class="yellow">número de tu mesa</span>.</p>
-      <div class="inp-group">
-        <input id="i-p0" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="—">
-        <div id="e-p0" class="err"></div>
-      </div>
-      <button class="btn" onclick="check('p0')">VERIFICAR</button>
-    </div>
-  </div>
-
-  <!-- SC1 -->
+  <!-- SC1: BRIEFING INICIAL -->
   <div id="sc1" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:10%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:0%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
-      <p>Verificación confirmada.</p>
+      <p>Identidad confirmada. Bienvenido a la operación.</p>
       <p>Hace tres semanas, nuestro informador dentro del Vault interceptó un mensaje: alguien planea llevarse el botín antes de que cierre la noche.</p>
       <p>Necesitamos saber <span class="yellow">exactamente cuánto hay en juego</span>. Sin ese dato, no podemos calcular el riesgo de la operación.</p>
-      <p>El botín está a la vista. Solo hay que saber mirarlo.</p>
+      <p>El botín está a la vista. Solo hay que saber contarlo.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p1','2/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p1','1/9')">COMENZAR →</button>
   </div>
 
   <!-- P1: LINGOTES -->
@@ -166,8 +145,8 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
     <h1>El Botín</h1>
     <div class="sub">INVENTARIO DE ACTIVOS</div>
     <div class="card">
-      <p style="font-size:13px">En este local hay lingotes de oro repartidos por las mesas. <span class="yellow">Suma el valor total</span> de todos los que encuentres.</p>
-      <p style="font-size:12px;color:var(--dim)">Cada lingote tiene su valor marcado. Búscalos todos antes de responder.</p>
+      <p style="font-size:13px">En este local hay lingotes de oro repartidos por las mesas. <span class="yellow">¿Cuántos hay en total?</span></p>
+      <p style="font-size:12px;color:var(--dim)">Recorre el local y cuéntalos todos antes de responder.</p>
     </div>
     <div class="vault-art" id="gold-display"></div>
     <div class="inp-group">
@@ -179,56 +158,51 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC2 -->
   <div id="sc2" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:20%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:11%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
-      <p>Botín confirmado. El valor total ha sido transmitido al cuartel general.</p>
-      <p>Segundo objetivo: nuestro informador menciona a un tal <span class="yellow">Sr. Rai</span>. Parece que alguien con ese nombre tiene que ver con esta operación.</p>
-      <p>Antes de encontrarle, hay una pista que no puedes perderte. Está en el lugar más tranquilo del Vault.</p>
-      <p class="dim" style="font-size:12px">El agente que no descanse, fracasa.</p>
+      <p>Botín confirmado. La cifra ha sido transmitida al cuartel general.</p>
+      <p>Para continuar necesitas una contraseña de acceso. El Agente B la escondió en el único rincón del Vault que no habla nuestro idioma.</p>
+      <p>Encuéntralo. Cuando llegues, sabrás lo que tienes que hacer.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p2','3/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p2','2/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P2: JAPÓN -->
   <div id="p2" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:20%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:22%"></div></div>
     <div class="stamp">NIVEL 2 — INFILTRACIÓN</div>
-    <h1>Los Baños de Japón</h1>
-    <div class="sub">MENSAJE CODIFICADO</div>
+    <h1>Mensaje Cifrado</h1>
+    <div class="sub">PROTOCOLO DE ACCESO</div>
     <div class="card">
-      <p style="font-size:13px">En el pasillo de los baños hay un mensaje en un idioma que no todos conocen.</p>
-      <p style="font-size:13px">Usa la cámara de tu teléfono con el <span class="yellow">traductor</span> para descifrar lo que dice.</p>
-      <p style="font-size:12px;color:var(--dim)">(Google Translate → modo cámara)</p>
+      <p style="font-size:13px">En algún lugar de este local hay un mensaje escrito en un idioma que no puedes leer a simple vista.</p>
+      <p style="font-size:13px">Cuando lo encuentres, usa el <span class="yellow">modo cámara de Google Translate</span> para descifrarlo.</p>
+      <p style="font-size:13px">Escribe exactamente lo que dice la traducción.</p>
+      <p style="font-size:12px;color:var(--dim)">(Abre Google Translate → icono de cámara → apunta al texto)</p>
     </div>
-    <div class="kanji">いらっしゃいませ</div>
-    <div class="kanji-hint">↑ Esto es lo que encontrarás en el pasillo</div>
-    <div class="card" style="margin-top:0">
-      <p style="font-size:13px">¿Qué dice?</p>
-      <div class="inp-group">
-        <input id="i-p2" class="inp" type="text" inputmode="text" placeholder="Escribe la traducción" style="letter-spacing:1px;font-size:14px">
-        <div id="e-p2" class="err"></div>
-      </div>
-      <button class="btn" onclick="check('p2')">CONFIRMAR</button>
+    <div class="inp-group">
+      <input id="i-p2" class="inp" type="text" inputmode="text" placeholder="Escribe la traducción" style="letter-spacing:1px;font-size:14px">
+      <div id="e-p2" class="err"></div>
     </div>
+    <button class="btn" onclick="check('p2')">CONFIRMAR</button>
   </div>
 
   <!-- SC3 -->
   <div id="sc3" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:30%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:33%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
-      <p>Esa palabra era la contraseña de entrada al sistema secundario.</p>
-      <p>Hemos accedido a los servidores internos del Vault. Pero hay un problema: el administrador de red detectó el acceso y dejó un rastro antes de desaparecer.</p>
+      <p>Contraseña verificada. Acceso concedido al sistema secundario.</p>
+      <p>Problema: el administrador de red detectó la intrusión y desapareció antes de que pudiéramos localizarle.</p>
       <p>Su nombre en el sistema: <span class="yellow">EMMY</span>. Número de empleado desconocido. Encuéntralo.</p>
       <p class="dim" style="font-size:12px">La respuesta no está en esta pantalla.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p3','4/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p3','3/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P3: HACKEO -->
   <div id="p3" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:30%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:33%"></div></div>
     <div class="stamp">NIVEL 3 — HACKEO</div>
     <h1>El Hackeo</h1>
     <div class="sub">IDENTIFICACIÓN DEL SISTEMA</div>
@@ -246,26 +220,26 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC4 -->
   <div id="sc4" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:44%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
       <p>Sistema comprometido. Acceso concedido.</p>
-      <p>En los registros internos hemos encontrado algo: hay una taquilla asociada a un nombre. El nombre completo es <span class="yellow">Sr. Rai S.J</span>.</p>
-      <p>Rai trabajó en el Vault durante años. Antes de desaparecer, dejó algo en su taquilla para quien supiera buscarlo.</p>
-      <p>El código de esa taquilla es su legado. Literalmente.</p>
+      <p>En los archivos hay una entrada sobre el <span class="yellow">Sr. Rai S.J</span>. Trabajó en el Vault durante años antes de desaparecer sin dejar rastro.</p>
+      <p>Lo que sí dejó fue la siguiente pista, escondida en su caja fuerte personal. Para abrirla, necesitas su código de acceso.</p>
+      <p>Búscalo en las taquillas.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p4','5/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p4','4/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P4: TAQUILLAS -->
   <div id="p4" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:44%"></div></div>
     <div class="stamp">NIVEL 4 — RECONOCIMIENTO</div>
     <h1>Las Taquillas</h1>
-    <div class="sub">LEGADO SR. RAI</div>
+    <div class="sub">CAJA FUERTE DEL SR. RAI</div>
     <div class="card">
-      <p style="font-size:13px">Frente a ti hay una cuadrícula de taquillas. Cada una tiene un nombre y un legado.</p>
-      <p style="font-size:13px">Encuentra la taquilla de <span class="yellow">Sr. Rai S.J</span> e introduce el número de su legado.</p>
+      <p style="font-size:13px">Hay una cuadrícula de taquillas en el local. Cada una lleva el nombre de su propietario.</p>
+      <p style="font-size:13px">Localiza la del <span class="yellow">Sr. Rai S.J</span> e introduce el código con el que la registró.</p>
     </div>
     <div class="lockers" id="locker-grid"></div>
     <div class="inp-group">
@@ -277,20 +251,20 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC5 -->
   <div id="sc5" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:50%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:55%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
-      <p>La taquilla del Sr. Rai contenía un sobre.</p>
+      <p>La caja fuerte del Sr. Rai contenía un sobre.</p>
       <p>Dentro: documentos financieros. Dos versiones del mismo informe. Alguien los alteró.</p>
-      <p>Nuestros analistas necesitan que compruebes el precio real de uno de los artículos. Está en la carta. Aplica la fórmula y tendrás la cifra que buscamos.</p>
+      <p>Necesitamos el precio real de uno de los artículos. Está en la carta. Aplica la fórmula y tendrás la cifra que buscamos.</p>
       <p class="dim" style="font-size:12px">No es lo que parece a primera vista.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p5','6/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p5','5/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P5: ARCHIVOS -->
   <div id="p5" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:50%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:55%"></div></div>
     <div class="stamp">NIVEL 5 — ANÁLISIS</div>
     <h1>Los Archivos</h1>
     <div class="sub">DISCREPANCIA FINANCIERA</div>
@@ -308,20 +282,20 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC6 -->
   <div id="sc6" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:66%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
       <p>Dato confirmado. El fraude está documentado.</p>
       <p>El nombre de este lugar lo dice todo. <span class="yellow">VAULT</span>. Cámara acorazada. Pero también un cifrado.</p>
       <p>Nuestros criptógrafos han detectado que el propio nombre del local esconde un número. Hay un patrón en las letras que solo quien sepa mirar puede ver.</p>
       <p class="dim" style="font-size:12px">No necesitas moverte. La respuesta está en tu pantalla.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p6','7/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p6','6/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P6: CIFRADO VAULT -->
   <div id="p6" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:66%"></div></div>
     <div class="stamp">NIVEL 6 — CRIPTOGRAFÍA</div>
     <h1>Acertijo Visual</h1>
     <div class="sub">CIFRADO VAULT</div>
@@ -346,19 +320,19 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC7 -->
   <div id="sc7" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:70%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:77%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
       <p>Cifrado resuelto.</p>
       <p>Antes de desaparecer, el Sr. Rai dejó un mensaje grabado. Un número de teléfono fijo. Dijeron que nunca contestaba nadie.</p>
       <p>Se equivocaban.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p7','8/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p7','7/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P7: TELÉFONO -->
   <div id="p7" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:70%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:77%"></div></div>
     <div class="stamp">NIVEL 7 — COMUNICACIONES</div>
     <h1>El Mensaje</h1>
     <div class="sub">CONTESTADOR AUTOMÁTICO</div>
@@ -380,19 +354,19 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC8 -->
   <div id="sc8" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:88%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
       <p>El Sr. Rai era más listo de lo que pensábamos.</p>
-      <p>Lo último que queda está en la sala. Entre las obras. Hay un cuadro que no es lo que parece.</p>
-      <p>Tendrás que <span class="yellow">fotografiarlo</span>. El número está ahí. Pero hay que buscarlo.</p>
+      <p>Lo siguiente que buscas está en la sala. Entre las obras. Hay un cuadro que no es lo que parece.</p>
+      <p>Tendrás que <span class="yellow">fotografiarlo</span>. El número está ahí. Pero hay que buscarlo bien.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p8','9/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p8','8/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P8: CUADROS -->
   <div id="p8" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:88%"></div></div>
     <div class="stamp">NIVEL 8 — GALERÍA</div>
     <h1>Los Cuadros</h1>
     <div class="sub">ARTE CON SECRETOS</div>
@@ -427,20 +401,20 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 
   <!-- SC9 -->
   <div id="sc9" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
-    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="progress"><div class="progress-bar" style="width:95%"></div></div>
+    <div class="agent">⬡ AGENTE B</div>
     <div class="scene">
       <p>Último paso, agente.</p>
       <p>El Sr. Rai dejó el código final donde nadie lo buscaría: <span class="yellow">en la propia puerta de la cámara</span>.</p>
       <p>Ve a la cámara acorazada. Encuentra el código. Introdúcelo.</p>
       <p>Si lo has hecho bien, la operación habrá concluido.</p>
     </div>
-    <button class="btn btn-sm" onclick="go('p9','10/10')">SIGUIENTE →</button>
+    <button class="btn btn-sm" onclick="go('p9','9/9')">SIGUIENTE →</button>
   </div>
 
   <!-- P9: CÁMARA ACORAZADA -->
   <div id="p9" class="scr">
-    <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
+    <div class="progress"><div class="progress-bar" style="width:95%"></div></div>
     <div class="stamp">NIVEL 9 — FINAL</div>
     <h1>La Cámara</h1>
     <div class="sub">ACCESO RESTRINGIDO</div>
@@ -517,8 +491,7 @@ p{line-height:1.7;margin-bottom:12px;font-size:14px}
 /* ═══ CONFIG — modificar aquí ═══ */
 const CONFIG = {
   timerMinutes:    30,
-  tableNumber:      7,      // número de la mesa (P0)
-  goldTotal:       99,      // suma total de todos los lingotes (P1)
+  goldCount:       99,      // número total de lingotes en el local (P1)
   phoneDigit:       8,      // último número del mensaje del contestador (P7)
   paintingsAnswer:  9,      // número oculto en el cuadro marcado (P8)
   vaultDoorCode: '1492',    // código físico en la puerta de la cámara (P9)
@@ -527,8 +500,7 @@ const CONFIG = {
 
 /* ═══ RESPUESTAS ═══ */
 const OK = {
-  p0: String(CONFIG.tableNumber),
-  p1: String(CONFIG.goldTotal),
+  p1: String(CONFIG.goldCount),
   p2: 'irasshaimase',
   p3: '9',
   p4: '70',
@@ -572,15 +544,14 @@ function go(id, step){
 
 /* ═══ FLUJO ═══ */
 const FLOW = {
-  p0: ()=> go('sc1','1/10'),
-  p1: ()=> go('sc2','2/10'),
-  p2: ()=> go('sc3','3/10'),
-  p3: ()=> go('sc4','4/10'),
-  p4: ()=> go('sc5','5/10'),
-  p5: ()=> go('sc6','6/10'),
-  p6: ()=> go('sc7','7/10'),
-  p7: ()=> go('sc8','8/10'),
-  p8: ()=> go('sc9','9/10'),
+  p1: ()=> go('sc2','1/9'),
+  p2: ()=> go('sc3','2/9'),
+  p3: ()=> go('sc4','3/9'),
+  p4: ()=> go('sc5','4/9'),
+  p5: ()=> go('sc6','5/9'),
+  p6: ()=> go('sc7','6/9'),
+  p7: ()=> go('sc8','7/9'),
+  p8: ()=> go('sc9','8/9'),
   p9: ()=> winGame(),
 };
 
@@ -600,8 +571,7 @@ function check(p){
     el.classList.add('shake');
     el.addEventListener('animationend',()=> el.classList.remove('shake'),{once:true});
     const hints = {
-      p0:'Busca el número marcado en tu mesa.',
-      p1:'Suma todos los lingotes del local.',
+      p1:'Recorre el local y cuenta todos los lingotes.',
       p2:'Escribe exactamente lo que dice el traductor.',
       p3:'Busca a EMMY en la carta y suma sus dígitos.',
       p4:'Busca "Sr. Rai S.J" en las taquillas físicas.',
@@ -639,14 +609,14 @@ function startGame(){
   gameActive = true;
   startTime  = Date.now();
   startTimer();
-  go('p0','1/10');
+  go('sc1','');
 }
 
 /* ═══ RENDER LINGOTES ═══ */
 function renderGold(){
-  const bars = [{v:15},{v:12},{v:18},{v:9},{v:21},{v:8},{v:16}];
+  const count = 7;
   document.getElementById('gold-display').innerHTML =
-    bars.map(b=>`<div class="bar">${b.v}<span class="bar-label">kg</span></div>`).join('');
+    Array(count).fill(null).map(()=>`<div class="bar">Au</div>`).join('');
 }
 
 /* ═══ RENDER TAQUILLAS ═══ */
@@ -687,7 +657,7 @@ function renderCipher(){
 function renderStaff(){
   document.getElementById('staff-code').textContent = prizeCode();
   const answers = {
-    'P0 Mesa':OK.p0,'P1 Lingotes':OK.p1,'P2 Japón':OK.p2,
+    'P1 Lingotes':OK.p1,'P2 Japón':OK.p2,
     'P3 Hackeo':OK.p3,'P4 Taquillas':OK.p4,'P5 Archivos':OK.p5,
     'P6 VAULT':OK.p6,'P7 Teléfono':OK.p7,'P8 Cuadros':OK.p8,'P9 Cámara':OK.p9
   };
@@ -696,7 +666,7 @@ function renderStaff(){
       `<div><span style="color:var(--dim)">${k}:</span> <span style="color:var(--y)">${v}</span></div>`
     ).join('');
   const cfg = {
-    Mesa:CONFIG.tableNumber, Lingotes:CONFIG.goldTotal,
+    Lingotes:CONFIG.goldCount,
     Teléfono:CONFIG.phoneDigit, Cuadro:CONFIG.paintingsAnswer, Puerta:CONFIG.vaultDoorCode
   };
   document.getElementById('staff-config').innerHTML =
