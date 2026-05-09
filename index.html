@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>VAULT — Operación Lingote</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--y:#FFE600;--r:#FF3333;--bg:#060606;--c1:#0e0e0e;--c2:#141414;--dim:#444;--txt:#bbb;--green:#00CC66}
+html,body{background:var(--bg);color:var(--txt);font-family:'Courier New',monospace;min-height:100vh}
+body{display:flex;justify-content:center}
+#app{width:100%;max-width:480px;min-height:100vh;padding:0 0 40px}
+
+#hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #1a1a1a;position:sticky;top:0;background:var(--bg);z-index:10}
+#hlogo{color:var(--y);font-size:18px;font-weight:700;letter-spacing:3px}
+#hstep{color:var(--dim);font-size:11px}
+#htimer{font-size:14px;font-weight:700;color:var(--y);font-variant-numeric:tabular-nums}
+#htimer.warn{color:var(--r);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+.scr{display:none;padding:24px 16px}
+.scr.on{display:block}
+
+h1{color:var(--y);font-size:22px;letter-spacing:2px;margin-bottom:6px}
+h2{color:var(--y);font-size:16px;letter-spacing:1px;margin-bottom:12px}
+.sub{color:var(--dim);font-size:11px;letter-spacing:2px;margin-bottom:20px}
+p{line-height:1.7;margin-bottom:12px;font-size:14px}
+.yellow{color:var(--y)}
+.red{color:var(--r)}
+.green{color:var(--green)}
+.dim{color:var(--dim)}
+
+.card{background:var(--c1);border:1px solid #1f1f1f;border-radius:6px;padding:20px;margin-bottom:16px}
+.card-y{border-color:var(--y);border-width:2px}
+.stamp{display:inline-block;border:2px solid var(--r);color:var(--r);font-size:10px;letter-spacing:3px;padding:3px 8px;transform:rotate(-3deg);margin-bottom:12px}
+
+.dossier{background:#0a0a00;border:1px solid #333300;border-radius:4px;padding:16px;position:relative}
+.dossier::before{content:'CLASIFICADO';position:absolute;top:8px;right:8px;color:var(--r);font-size:9px;letter-spacing:2px;border:1px solid var(--r);padding:2px 6px}
+.field{margin-bottom:10px;font-size:13px}
+.field-label{color:var(--dim);font-size:10px;letter-spacing:2px;display:block;margin-bottom:2px}
+
+.vault-art{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:20px;background:var(--c1);border-radius:6px;margin-bottom:16px}
+.bar{width:52px;height:28px;background:linear-gradient(135deg,#b8860b 0%,var(--y) 40%,#daa520 60%,#8b6914 100%);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;position:relative;box-shadow:2px 2px 0 #000}
+.bar-label{position:absolute;font-size:7px;bottom:2px;right:3px;color:rgba(0,0,0,0.5)}
+
+.kanji{font-size:52px;text-align:center;padding:20px;background:var(--c1);border-radius:6px;margin-bottom:8px;line-height:1.2}
+.kanji-hint{text-align:center;font-size:11px;color:var(--dim);margin-bottom:16px}
+
+.lockers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+.locker{background:var(--c2);border:1px solid #222;border-radius:4px;padding:8px 4px;text-align:center;font-size:9px;line-height:1.4}
+.locker.hl{border-color:var(--y);background:#0d0d00}
+
+.cipher-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+.cipher-table th{background:var(--y);color:#000;padding:8px;text-align:center;font-size:11px;letter-spacing:1px}
+.cipher-table td{border:1px solid #222;padding:8px;text-align:center;background:var(--c1)}
+.cipher-word{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
+.cipher-letter{width:44px;height:52px;background:var(--c2);border:1px solid #333;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.cipher-letter span:first-child{color:var(--y);font-size:20px;font-weight:700}
+.cipher-letter span:last-child{font-size:10px;color:var(--dim)}
+
+.phone-box{background:#0a0a0a;border:2px solid #222;border-radius:12px;padding:20px;text-align:center;margin-bottom:16px}
+.phone-icon{font-size:40px;margin-bottom:8px}
+.phone-text{font-size:13px;font-style:italic;color:var(--txt);line-height:1.6}
+.phone-beep{color:var(--dim);font-size:11px;margin-top:8px}
+
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.painting{background:var(--c1);border:3px solid #2a2a2a;border-radius:2px;padding:16px;text-align:center}
+.painting.target{border-color:var(--y)}
+.painting-frame{font-size:11px;color:var(--dim);margin-top:8px}
+.painting-art{height:80px;display:flex;align-items:center;justify-content:center;font-size:30px}
+
+.vault-door{position:relative;width:200px;height:200px;margin:0 auto 20px;border-radius:50%;background:radial-gradient(circle,#1a1a1a 0%,#0a0a0a 60%,#111 100%);border:8px solid #333;box-shadow:0 0 0 4px #1a1a1a,0 0 0 8px #222,0 0 30px rgba(255,230,0,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.vault-handle{width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,#444,#222);border:4px solid #555;display:flex;align-items:center;justify-content:center;font-size:24px}
+
+.inp-group{margin-bottom:12px}
+.inp{width:100%;background:var(--c2);border:1px solid #333;border-radius:6px;color:#fff;font-size:16px;font-family:'Courier New',monospace;padding:14px;text-align:center;letter-spacing:4px;outline:none;transition:border .2s}
+.inp:focus{border-color:var(--y)}
+.inp.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.err{color:var(--r);font-size:12px;min-height:18px;margin-top:4px;text-align:center}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+.btn{display:block;width:100%;padding:15px;background:var(--y);color:#000;font-family:'Courier New',monospace;font-size:14px;font-weight:700;letter-spacing:2px;border:none;border-radius:6px;cursor:pointer;margin-top:8px;transition:opacity .2s}
+.btn:hover{opacity:.9}
+.btn-ghost{background:transparent;color:var(--y);border:1px solid var(--y)}
+.btn-sm{padding:10px;font-size:12px;margin-top:16px}
+
+.progress{height:3px;background:#1a1a1a;border-radius:2px;margin-bottom:24px}
+.progress-bar{height:100%;background:var(--y);border-radius:2px;transition:width .5s}
+
+.scene{border-left:3px solid var(--y);padding-left:16px;margin-bottom:20px}
+.scene p{font-size:13px;line-height:1.8}
+.agent{color:var(--y);font-size:11px;letter-spacing:2px;margin-bottom:8px}
+
+.win-icon{text-align:center;font-size:64px;margin:20px 0}
+.prize-code{font-size:32px;color:var(--y);letter-spacing:8px;text-align:center;padding:16px;background:var(--c1);border:2px solid var(--y);border-radius:6px;margin:16px 0}
+.divider{border:none;border-top:1px solid #1f1f1f;margin:20px 0}
+
+.staff-box{background:#001100;border:2px solid var(--green);border-radius:6px;padding:20px;text-align:center}
+.staff-code{font-size:40px;color:var(--green);letter-spacing:10px;padding:12px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="hdr">
+    <div id="hlogo">VAULT</div>
+    <div id="hstep"></div>
+    <div id="htimer">30:00</div>
+  </div>
+
+  <!-- INTRO -->
+  <div id="intro" class="scr on">
+    <div style="text-align:center;padding:30px 0 20px">
+      <div style="font-size:64px;margin-bottom:8px">🔒</div>
+      <h1>VAULT</h1>
+      <div class="sub">OPERACIÓN LINGOTE</div>
+    </div>
+    <div class="card">
+      <p>Bienvenido, agente.</p>
+      <p>Tienes <span class="yellow">30 minutos</span> para completar la misión. Si lo consigues, recibirás tu recompensa.</p>
+      <p>Sigue las instrucciones. Usa tus ojos. Usa tu cabeza. Usa lo que te rodea.</p>
+      <p class="dim" style="font-size:12px">El temporizador arrancará cuando pulses "INICIAR MISIÓN".</p>
+    </div>
+    <button class="btn" onclick="startGame()">▶ INICIAR MISIÓN</button>
+  </div>
+
+  <!-- P0: EXPEDIENTE -->
+  <div id="p0" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:0%"></div></div>
+    <div class="stamp">NIVEL 0 — ACCESO</div>
+    <h1>Expediente Clasificado</h1>
+    <div class="sub">VERIFICACIÓN DE IDENTIDAD</div>
+    <div class="dossier">
+      <div class="field"><span class="field-label">AGENTE</span>CHICK-7</div>
+      <div class="field"><span class="field-label">MISIÓN</span>OPERACIÓN LINGOTE</div>
+      <div class="field"><span class="field-label">OBJETIVO</span>Acceder a la cámara acorazada</div>
+      <div class="field"><span class="field-label">INSTRUCCIÓN</span>El sistema requiere verificación. El número de tu mesa es tu primera clave.</div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p style="font-size:13px">Introduce el <span class="yellow">número de tu mesa</span>.</p>
+      <div class="inp-group">
+        <input id="i-p0" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="—">
+        <div id="e-p0" class="err"></div>
+      </div>
+      <button class="btn" onclick="check('p0')">VERIFICAR</button>
+    </div>
+  </div>
+
+  <!-- SC1 -->
+  <div id="sc1" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:10%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Verificación confirmada.</p>
+      <p>Hace tres semanas, nuestro informador dentro del Vault interceptó un mensaje: alguien planea llevarse el botín antes de que cierre la noche.</p>
+      <p>Necesitamos saber <span class="yellow">exactamente cuánto hay en juego</span>. Sin ese dato, no podemos calcular el riesgo de la operación.</p>
+      <p>El botín está a la vista. Solo hay que saber mirarlo.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p1','2/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P1: LINGOTES -->
+  <div id="p1" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:10%"></div></div>
+    <div class="stamp">NIVEL 1 — RECONOCIMIENTO</div>
+    <h1>El Botín</h1>
+    <div class="sub">INVENTARIO DE ACTIVOS</div>
+    <div class="card">
+      <p style="font-size:13px">En este local hay lingotes de oro repartidos por las mesas. <span class="yellow">Suma el valor total</span> de todos los que encuentres.</p>
+      <p style="font-size:12px;color:var(--dim)">Cada lingote tiene su valor marcado. Búscalos todos antes de responder.</p>
+    </div>
+    <div class="vault-art" id="gold-display"></div>
+    <div class="inp-group">
+      <input id="i-p1" class="inp" type="number" inputmode="numeric" placeholder="Total →">
+      <div id="e-p1" class="err"></div>
+    </div>
+    <button class="btn" onclick="check('p1')">CONFIRMAR BOTÍN</button>
+  </div>
+
+  <!-- SC2 -->
+  <div id="sc2" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:20%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Botín confirmado. El valor total ha sido transmitido al cuartel general.</p>
+      <p>Segundo objetivo: nuestro informador menciona a un tal <span class="yellow">Sr. Rai</span>. Parece que alguien con ese nombre tiene que ver con esta operación.</p>
+      <p>Antes de encontrarle, hay una pista que no puedes perderte. Está en el lugar más tranquilo del Vault.</p>
+      <p class="dim" style="font-size:12px">El agente que no descanse, fracasa.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p2','3/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P2: JAPÓN -->
+  <div id="p2" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:20%"></div></div>
+    <div class="stamp">NIVEL 2 — INFILTRACIÓN</div>
+    <h1>Los Baños de Japón</h1>
+    <div class="sub">MENSAJE CODIFICADO</div>
+    <div class="card">
+      <p style="font-size:13px">En el pasillo de los baños hay un mensaje en un idioma que no todos conocen.</p>
+      <p style="font-size:13px">Usa la cámara de tu teléfono con el <span class="yellow">traductor</span> para descifrar lo que dice.</p>
+      <p style="font-size:12px;color:var(--dim)">(Google Translate → modo cámara)</p>
+    </div>
+    <div class="kanji">いらっしゃいませ</div>
+    <div class="kanji-hint">↑ Esto es lo que encontrarás en el pasillo</div>
+    <div class="card" style="margin-top:0">
+      <p style="font-size:13px">¿Qué dice?</p>
+      <div class="inp-group">
+        <input id="i-p2" class="inp" type="text" inputmode="text" placeholder="Escribe la traducción" style="letter-spacing:1px;font-size:14px">
+        <div id="e-p2" class="err"></div>
+      </div>
+      <button class="btn" onclick="check('p2')">CONFIRMAR</button>
+    </div>
+  </div>
+
+  <!-- SC3 -->
+  <div id="sc3" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:30%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Esa palabra era la contraseña de entrada al sistema secundario.</p>
+      <p>Hemos accedido a los servidores internos del Vault. Pero hay un problema: el administrador de red detectó el acceso y dejó un rastro antes de desaparecer.</p>
+      <p>Su nombre en el sistema: <span class="yellow">EMMY</span>. Número de empleado desconocido. Encuéntralo.</p>
+      <p class="dim" style="font-size:12px">La respuesta no está en esta pantalla.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p3','4/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P3: HACKEO -->
+  <div id="p3" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:30%"></div></div>
+    <div class="stamp">NIVEL 3 — HACKEO</div>
+    <h1>El Hackeo</h1>
+    <div class="sub">IDENTIFICACIÓN DEL SISTEMA</div>
+    <div class="card">
+      <p style="font-size:13px">El administrador de red se llama <span class="yellow">EMMY</span>. Su número de empleado está en la carta del Vault.</p>
+      <p style="font-size:13px">Encuéntralo. Luego suma sus dígitos para obtener la clave de acceso.</p>
+      <p style="font-size:12px;color:var(--dim)">Ejemplo: si el número fuera 36, la clave sería 3+6 = 9</p>
+    </div>
+    <div class="inp-group">
+      <input id="i-p3" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="Clave →">
+      <div id="e-p3" class="err"></div>
+    </div>
+    <button class="btn" onclick="check('p3')">ACCEDER AL SISTEMA</button>
+  </div>
+
+  <!-- SC4 -->
+  <div id="sc4" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Sistema comprometido. Acceso concedido.</p>
+      <p>En los registros internos hemos encontrado algo: hay una taquilla asociada a un nombre. El nombre completo es <span class="yellow">Sr. Rai S.J</span>.</p>
+      <p>Rai trabajó en el Vault durante años. Antes de desaparecer, dejó algo en su taquilla para quien supiera buscarlo.</p>
+      <p>El código de esa taquilla es su legado. Literalmente.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p4','5/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P4: TAQUILLAS -->
+  <div id="p4" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
+    <div class="stamp">NIVEL 4 — RECONOCIMIENTO</div>
+    <h1>Las Taquillas</h1>
+    <div class="sub">LEGADO SR. RAI</div>
+    <div class="card">
+      <p style="font-size:13px">Frente a ti hay una cuadrícula de taquillas. Cada una tiene un nombre y un legado.</p>
+      <p style="font-size:13px">Encuentra la taquilla de <span class="yellow">Sr. Rai S.J</span> e introduce el número de su legado.</p>
+    </div>
+    <div class="lockers" id="locker-grid"></div>
+    <div class="inp-group">
+      <input id="i-p4" class="inp" type="number" inputmode="numeric" placeholder="Legado →">
+      <div id="e-p4" class="err"></div>
+    </div>
+    <button class="btn" onclick="check('p4')">ABRIR TAQUILLA</button>
+  </div>
+
+  <!-- SC5 -->
+  <div id="sc5" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:50%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>La taquilla del Sr. Rai contenía un sobre.</p>
+      <p>Dentro: documentos financieros. Dos versiones del mismo informe. Alguien los alteró.</p>
+      <p>Nuestros analistas necesitan que compruebes el precio real de uno de los artículos. Está en la carta. Aplica la fórmula y tendrás la cifra que buscamos.</p>
+      <p class="dim" style="font-size:12px">No es lo que parece a primera vista.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p5','6/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P5: ARCHIVOS -->
+  <div id="p5" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:50%"></div></div>
+    <div class="stamp">NIVEL 5 — ANÁLISIS</div>
+    <h1>Los Archivos</h1>
+    <div class="sub">DISCREPANCIA FINANCIERA</div>
+    <div class="card card-y">
+      <p style="font-size:13px;color:var(--y)">FILE 001 vs FILE 002</p>
+      <p style="font-size:13px">Hay dos versiones de los registros en la carta. En una de ellas, el precio de un artículo fue manipulado.</p>
+      <p style="font-size:13px">Compara <span class="yellow">FILE 001</span> y <span class="yellow">FILE 002</span>. Calcula el precio real según la ecuación oculta. El resultado es un número de un solo dígito.</p>
+    </div>
+    <div class="inp-group">
+      <input id="i-p5" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="→">
+      <div id="e-p5" class="err"></div>
+    </div>
+    <button class="btn" onclick="check('p5')">CONFIRMAR DATO</button>
+  </div>
+
+  <!-- SC6 -->
+  <div id="sc6" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Dato confirmado. El fraude está documentado.</p>
+      <p>El nombre de este lugar lo dice todo. <span class="yellow">VAULT</span>. Cámara acorazada. Pero también un cifrado.</p>
+      <p>Nuestros criptógrafos han detectado que el propio nombre del local esconde un número. Hay un patrón en las letras que solo quien sepa mirar puede ver.</p>
+      <p class="dim" style="font-size:12px">No necesitas moverte. La respuesta está en tu pantalla.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p6','7/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P6: CIFRADO VAULT -->
+  <div id="p6" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
+    <div class="stamp">NIVEL 6 — CRIPTOGRAFÍA</div>
+    <h1>Acertijo Visual</h1>
+    <div class="sub">CIFRADO VAULT</div>
+    <div class="card">
+      <p style="font-size:13px;margin-bottom:16px">Cada letra tiene un valor según este sistema:</p>
+      <table class="cipher-table">
+        <tr><th>Tipo</th><th>Valor</th><th>Letras</th></tr>
+        <tr><td>Vocal</td><td style="color:var(--y);font-weight:700">1</td><td>A, E, I, O, U</td></tr>
+        <tr><td>Consonante</td><td style="color:var(--y);font-weight:700">2</td><td>resto</td></tr>
+      </table>
+    </div>
+    <div class="cipher-word" id="cipher-word"></div>
+    <div class="card" style="margin-top:0">
+      <p style="font-size:13px">¿Cuánto vale <span class="yellow">VAULT</span>?</p>
+      <div class="inp-group">
+        <input id="i-p6" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="→">
+        <div id="e-p6" class="err"></div>
+      </div>
+      <button class="btn" onclick="check('p6')">DESCIFRAR</button>
+    </div>
+  </div>
+
+  <!-- SC7 -->
+  <div id="sc7" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:70%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Cifrado resuelto.</p>
+      <p>Antes de desaparecer, el Sr. Rai dejó un mensaje grabado. Un número de teléfono fijo. Dijeron que nunca contestaba nadie.</p>
+      <p>Se equivocaban.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p7','8/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P7: TELÉFONO -->
+  <div id="p7" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:70%"></div></div>
+    <div class="stamp">NIVEL 7 — COMUNICACIONES</div>
+    <h1>El Mensaje</h1>
+    <div class="sub">CONTESTADOR AUTOMÁTICO</div>
+    <div class="phone-box">
+      <div class="phone-icon">📞</div>
+      <div class="phone-text">"Te he dejado un mensaje en el contestador..."</div>
+      <div class="phone-beep">— BIP —</div>
+    </div>
+    <div class="card">
+      <p style="font-size:13px">Busca el <span class="yellow">teléfono fijo</span> del local. Llama. Escucha el mensaje del contestador.</p>
+      <p style="font-size:13px">El último número que menciona el mensaje es lo que necesitas.</p>
+      <div class="inp-group">
+        <input id="i-p7" class="inp" type="number" inputmode="numeric" maxlength="1" placeholder="→">
+        <div id="e-p7" class="err"></div>
+      </div>
+      <button class="btn" onclick="check('p7')">CONFIRMAR</button>
+    </div>
+  </div>
+
+  <!-- SC8 -->
+  <div id="sc8" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>El Sr. Rai era más listo de lo que pensábamos.</p>
+      <p>Lo último que queda está en la sala. Entre las obras. Hay un cuadro que no es lo que parece.</p>
+      <p>Tendrás que <span class="yellow">fotografiarlo</span>. El número está ahí. Pero hay que buscarlo.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p8','9/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P8: CUADROS -->
+  <div id="p8" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
+    <div class="stamp">NIVEL 8 — GALERÍA</div>
+    <h1>Los Cuadros</h1>
+    <div class="sub">ARTE CON SECRETOS</div>
+    <div class="gallery">
+      <div class="painting">
+        <div class="painting-art">🖼️</div>
+        <div class="painting-frame">Cuadro I</div>
+      </div>
+      <div class="painting target">
+        <div class="painting-art">🔍</div>
+        <div class="painting-frame" style="color:var(--y)">★ Este</div>
+      </div>
+      <div class="painting">
+        <div class="painting-art">🖼️</div>
+        <div class="painting-frame">Cuadro III</div>
+      </div>
+      <div class="painting">
+        <div class="painting-art">🖼️</div>
+        <div class="painting-frame">Cuadro IV</div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:13px">Hay un cuadro en la galería que esconde un número. Fotográfialo y examina bien la imagen.</p>
+      <p style="font-size:12px;color:var(--dim)">(El cuadro exacto está señalado en el local)</p>
+      <div class="inp-group">
+        <input id="i-p8" class="inp" type="number" inputmode="numeric" maxlength="3" placeholder="→">
+        <div id="e-p8" class="err"></div>
+      </div>
+      <button class="btn" onclick="check('p8')">CONFIRMAR</button>
+    </div>
+  </div>
+
+  <!-- SC9 -->
+  <div id="sc9" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
+    <div class="agent">⬡ AGENTE CHICK-7</div>
+    <div class="scene">
+      <p>Último paso, agente.</p>
+      <p>El Sr. Rai dejó el código final donde nadie lo buscaría: <span class="yellow">en la propia puerta de la cámara</span>.</p>
+      <p>Ve a la cámara acorazada. Encuentra el código. Introdúcelo.</p>
+      <p>Si lo has hecho bien, la operación habrá concluido.</p>
+    </div>
+    <button class="btn btn-sm" onclick="go('p9','10/10')">SIGUIENTE →</button>
+  </div>
+
+  <!-- P9: CÁMARA ACORAZADA -->
+  <div id="p9" class="scr">
+    <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
+    <div class="stamp">NIVEL 9 — FINAL</div>
+    <h1>La Cámara</h1>
+    <div class="sub">ACCESO RESTRINGIDO</div>
+    <div class="vault-door">
+      <div style="position:absolute;width:90%;height:90%;border-radius:50%;border:3px solid #222"></div>
+      <div style="position:absolute;width:70%;height:70%;border-radius:50%;border:2px solid #1a1a1a"></div>
+      <div class="vault-handle">🔐</div>
+    </div>
+    <div class="card">
+      <p style="font-size:13px;text-align:center">Ve a la puerta de la cámara acorazada.</p>
+      <p style="font-size:13px;text-align:center">Allí encontrarás el código que abre el sistema.</p>
+      <div class="inp-group" style="margin-top:16px">
+        <input id="i-p9" class="inp" type="text" inputmode="numeric" placeholder="— — — —" maxlength="10" style="letter-spacing:6px">
+        <div id="e-p9" class="err"></div>
+      </div>
+      <button class="btn" onclick="check('p9')">🔓 ABRIR CÁMARA</button>
+    </div>
+  </div>
+
+  <!-- WIN -->
+  <div id="win" class="scr">
+    <div class="win-icon">🏆</div>
+    <h1 style="text-align:center">MISIÓN COMPLETADA</h1>
+    <div class="sub" style="text-align:center">OPERACIÓN LINGOTE — ÉXITO</div>
+    <div class="card card-y" style="text-align:center;margin-top:20px">
+      <p style="font-size:12px;letter-spacing:2px;margin-bottom:8px">TU CÓDIGO DE PREMIO</p>
+      <div class="prize-code" id="win-code">——</div>
+      <p style="font-size:12px;color:var(--dim);margin-top:8px">Muéstraselo al equipo del Vault</p>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <p style="font-size:13px;text-align:center">El Sr. Rai tenía razón. El Vault guarda más de lo que parece.</p>
+      <p style="font-size:13px;text-align:center">Ahora pide tu recompensa. Te la has ganado.</p>
+    </div>
+    <div id="win-time" style="text-align:center;margin-top:16px;font-size:13px;color:var(--dim)"></div>
+    <hr class="divider">
+    <p style="font-size:11px;text-align:center;color:var(--dim)">VAULT BURGERS · vaultburgers.es</p>
+  </div>
+
+  <!-- GAMEOVER -->
+  <div id="gameover" class="scr">
+    <div style="text-align:center;padding:30px 0">
+      <div style="font-size:64px;margin-bottom:12px">⏱️</div>
+      <h1 class="red">TIEMPO AGOTADO</h1>
+      <div class="sub" style="text-align:center">OPERACIÓN FALLIDA</div>
+    </div>
+    <div class="card">
+      <p style="text-align:center;font-size:14px">El Sr. Rai escapó con el botín. Esta vez.</p>
+      <p style="text-align:center;font-size:13px;color:var(--dim)">Habla con el equipo del Vault. Puede que tengan algo para consolarte.</p>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="location.reload()">↩ VOLVER A INTENTARLO</button>
+  </div>
+
+  <!-- STAFF -->
+  <div id="staff" class="scr">
+    <h2>Panel de Staff</h2>
+    <div class="sub">SOLO PARA PERSONAL DEL VAULT</div>
+    <div class="staff-box">
+      <p style="font-size:12px;color:var(--green);letter-spacing:2px;margin-bottom:4px">CÓDIGO DE HOY</p>
+      <div class="staff-code" id="staff-code">——</div>
+      <p style="font-size:11px;color:var(--dim);margin-top:8px">Se renueva cada día a las 00:00</p>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p style="font-size:12px;color:var(--dim)"><strong style="color:var(--txt)">Respuestas:</strong></p>
+      <div id="staff-answers" style="font-size:12px;margin-top:8px;line-height:2"></div>
+    </div>
+    <div class="card" style="margin-top:0">
+      <p style="font-size:12px;color:var(--dim)"><strong style="color:var(--txt)">Configuración:</strong></p>
+      <div id="staff-config" style="font-size:12px;margin-top:8px;line-height:2"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ CONFIG — modificar aquí ═══ */
+const CONFIG = {
+  timerMinutes:    30,
+  tableNumber:      7,      // número de la mesa (P0)
+  goldTotal:       99,      // suma total de todos los lingotes (P1)
+  phoneDigit:       8,      // último número del mensaje del contestador (P7)
+  paintingsAnswer:  9,      // número oculto en el cuadro marcado (P8)
+  vaultDoorCode: '1492',    // código físico en la puerta de la cámara (P9)
+  prizeSecret: 'VAULT-TOP-SECRET-2025',
+};
+
+/* ═══ RESPUESTAS ═══ */
+const OK = {
+  p0: String(CONFIG.tableNumber),
+  p1: String(CONFIG.goldTotal),
+  p2: 'irasshaimase',
+  p3: '9',
+  p4: '70',
+  p5: '4',
+  p6: '8',
+  p7: String(CONFIG.phoneDigit),
+  p8: String(CONFIG.paintingsAnswer),
+  p9: CONFIG.vaultDoorCode,
+};
+
+/* ═══ ESTADO ═══ */
+let timerInterval = null;
+let secondsLeft   = CONFIG.timerMinutes * 60;
+let gameActive    = false;
+let startTime     = null;
+
+/* ═══ TIMER ═══ */
+function formatTime(s){
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer(){
+  const el = document.getElementById('htimer');
+  timerInterval = setInterval(()=>{
+    secondsLeft--;
+    el.textContent = formatTime(secondsLeft);
+    if(secondsLeft <= 300) el.classList.add('warn');
+    if(secondsLeft <= 0){ clearInterval(timerInterval); gameActive=false; ss('gameover'); }
+  },1000);
+}
+
+/* ═══ NAVEGACIÓN ═══ */
+function ss(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function go(id, step){
+  ss(id);
+  document.getElementById('hstep').textContent = step;
+}
+
+/* ═══ FLUJO ═══ */
+const FLOW = {
+  p0: ()=> go('sc1','1/10'),
+  p1: ()=> go('sc2','2/10'),
+  p2: ()=> go('sc3','3/10'),
+  p3: ()=> go('sc4','4/10'),
+  p4: ()=> go('sc5','5/10'),
+  p5: ()=> go('sc6','6/10'),
+  p6: ()=> go('sc7','7/10'),
+  p7: ()=> go('sc8','8/10'),
+  p8: ()=> go('sc9','9/10'),
+  p9: ()=> winGame(),
+};
+
+/* ═══ CHECK ═══ */
+function check(p){
+  if(!gameActive) return;
+  const el  = document.getElementById(`i-${p}`);
+  const err = document.getElementById(`e-${p}`);
+  const val = el.value.trim();
+  const match = val.toLowerCase().replace(/\s+/g,'') === OK[p].toLowerCase().replace(/\s+/g,'');
+  if(match){
+    err.textContent = '';
+    el.disabled = true;
+    el.style.borderColor = 'var(--green)';
+    setTimeout(()=> FLOW[p](), 400);
+  } else {
+    el.classList.add('shake');
+    el.addEventListener('animationend',()=> el.classList.remove('shake'),{once:true});
+    const hints = {
+      p0:'Busca el número marcado en tu mesa.',
+      p1:'Suma todos los lingotes del local.',
+      p2:'Escribe exactamente lo que dice el traductor.',
+      p3:'Busca a EMMY en la carta y suma sus dígitos.',
+      p4:'Busca "Sr. Rai S.J" en las taquillas físicas.',
+      p5:'Mira FILE 001 y FILE 002 en la carta y aplica la ecuación.',
+      p6:'Vocal=1, Consonante=2. Suma V+A+U+L+T.',
+      p7:'Escucha el mensaje del contestador hasta el final.',
+      p8:'Fotografía el cuadro marcado y examina bien la imagen.',
+      p9:'El código está físicamente en la puerta de la cámara.',
+    };
+    err.textContent = val==='' ? 'Introduce una respuesta.' : (hints[p]||'Respuesta incorrecta.');
+  }
+}
+
+/* ═══ WIN ═══ */
+function prizeCode(){
+  const d = new Date();
+  const k = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}|${CONFIG.prizeSecret}`;
+  let h = 5381;
+  for(let i=0;i<k.length;i++) h=((h<<5)+h)^k.charCodeAt(i);
+  return String(Math.abs(h)%10000).padStart(4,'0');
+}
+function winGame(){
+  clearInterval(timerInterval);
+  gameActive = false;
+  const elapsed = Math.round((Date.now()-startTime)/1000);
+  ss('win');
+  document.getElementById('hstep').textContent = '✓ COMPLETADO';
+  document.getElementById('win-code').textContent = prizeCode();
+  document.getElementById('win-time').textContent =
+    `Tiempo: ${Math.floor(elapsed/60)}m ${elapsed%60}s`;
+}
+
+/* ═══ START ═══ */
+function startGame(){
+  gameActive = true;
+  startTime  = Date.now();
+  startTimer();
+  go('p0','1/10');
+}
+
+/* ═══ RENDER LINGOTES ═══ */
+function renderGold(){
+  const bars = [{v:15},{v:12},{v:18},{v:9},{v:21},{v:8},{v:16}];
+  document.getElementById('gold-display').innerHTML =
+    bars.map(b=>`<div class="bar">${b.v}<span class="bar-label">kg</span></div>`).join('');
+}
+
+/* ═══ RENDER TAQUILLAS ═══ */
+function renderLockers(){
+  const data = [
+    {name:'M.E & J.E',leg:'Punto Firme 02'},
+    {name:'A.V - S.T',leg:'Herencia 15'},
+    {name:'Sr. Rai S.J',leg:'Legado 70',hl:true},
+    {name:'R.M & Co.',leg:'Fondos 33'},
+    {name:'L.F - B.K',leg:'Reserva 44'},
+    {name:'P.O & H.N',leg:'Capital 28'},
+    {name:'D.S - Q.R',leg:'Activo 91'},
+    {name:'T.V & J.L',leg:'Cuenta 55'},
+  ];
+  document.getElementById('locker-grid').innerHTML = data.map(l=>`
+    <div class="locker ${l.hl?'hl':''}">
+      ${l.hl?'<span style="color:var(--y);font-size:10px">★</span>':''}
+      <div style="font-size:8px;line-height:1.4;margin-top:2px">${l.name}</div>
+      <div style="font-size:8px;color:${l.hl?'var(--y)':'var(--dim)'};">${l.leg}</div>
+    </div>
+  `).join('');
+}
+
+/* ═══ RENDER CIFRADO ═══ */
+function renderCipher(){
+  const letters = [
+    {l:'V',t:'C',v:2},{l:'A',t:'V',v:1},{l:'U',t:'V',v:1},{l:'L',t:'C',v:2},{l:'T',t:'C',v:2}
+  ];
+  document.getElementById('cipher-word').innerHTML = letters.map(x=>`
+    <div class="cipher-letter">
+      <span>${x.l}</span>
+      <span style="color:${x.t==='V'?'var(--y)':'var(--dim)'}">${x.v}</span>
+    </div>
+  `).join('');
+}
+
+/* ═══ RENDER STAFF ═══ */
+function renderStaff(){
+  document.getElementById('staff-code').textContent = prizeCode();
+  const answers = {
+    'P0 Mesa':OK.p0,'P1 Lingotes':OK.p1,'P2 Japón':OK.p2,
+    'P3 Hackeo':OK.p3,'P4 Taquillas':OK.p4,'P5 Archivos':OK.p5,
+    'P6 VAULT':OK.p6,'P7 Teléfono':OK.p7,'P8 Cuadros':OK.p8,'P9 Cámara':OK.p9
+  };
+  document.getElementById('staff-answers').innerHTML =
+    Object.entries(answers).map(([k,v])=>
+      `<div><span style="color:var(--dim)">${k}:</span> <span style="color:var(--y)">${v}</span></div>`
+    ).join('');
+  const cfg = {
+    Mesa:CONFIG.tableNumber, Lingotes:CONFIG.goldTotal,
+    Teléfono:CONFIG.phoneDigit, Cuadro:CONFIG.paintingsAnswer, Puerta:CONFIG.vaultDoorCode
+  };
+  document.getElementById('staff-config').innerHTML =
+    Object.entries(cfg).map(([k,v])=>
+      `<div><span style="color:var(--dim)">${k}:</span> <span style="color:var(--green)">${v}</span></div>`
+    ).join('');
+}
+
+/* ═══ INIT ═══ */
+renderGold();
+renderLockers();
+renderCipher();
+
+if(new URLSearchParams(location.search).get('staff')!==null){
+  ss('staff');
+  renderStaff();
+  document.getElementById('hstep').textContent = 'STAFF';
+  document.getElementById('htimer').textContent = '——';
+}
+</script>
+</body>
+</html>
