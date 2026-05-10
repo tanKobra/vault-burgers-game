@@ -202,7 +202,7 @@ hr{border:none;border-top:1px solid #1a1a1a;margin:18px 0}
       <div class="uv-doc" id="uv-doc">
         <div class="uv-label">VAULT OPERACIONES — EXPEDIENTE #001</div>
         <div class="uv-always">━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>[DATOS NO DISPONIBLES]<br>[ACCESO RESTRINGIDO]<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-        <div class="uv-hidden"><br>INFORME CLASIFICADO — OPERACIÓN RECLUTA<br>─────────────────────────────────────<br>El Sr. Rai S.J fue el primer empleado<br>del Vault. Empleado nº 001. Veinte años<br>de servicio. Desapareció la noche del<br>14 de marzo, sin dejar rastro.<br><br>Sí dejó algo: una pista para quien<br>supiera encontrarla.<br><br>COORDENADA DE ACCESO: <span class="uv-key">SECTOR 3</span><br>─────────────────────────────────────<br>Agente B autoriza tu reclutamiento.<br></div>
+        <div class="uv-hidden"><br>INFORME CLASIFICADO — OPERACIÓN RECLUTA<br>─────────────────────────────────────<br>Sr. Rai S.J — Empleado nº 001.<br>Veinte años de servicio. Desaparecido<br>la noche del 14 de marzo.<br><br>Última anotación en su expediente:<br>"Accedí por la entrada que nadie usa.<br>La misma que el número de letras<br>que tiene mi apellido. Allí lo dejé."<br>─────────────────────────────────────<br>Agente B autoriza tu reclutamiento.<br></div>
       </div>
       <button class="btn btn-purple" id="uv-btn" onclick="toggleUV()" style="margin-bottom:14px">🔦 ACTIVAR LINTERNA UV</button>
     </div>
@@ -288,14 +288,14 @@ hr{border:none;border-top:1px solid #1a1a1a;margin:18px 0}
     </div>
     <div id="color-doc" class="cf-doc">
       <div style="font-size:9px;letter-spacing:2px;color:#333;margin-bottom:12px">TRANSMISIÓN INTERCEPTADA — CANAL 7-ALFA</div>
-      <span class="cf-g">Contacto</span> <span class="cf-w">establecido</span> <span class="cf-b">en</span> <span class="cf-w">sector</span> <span class="cf-g">norte</span><span class="cf-w">.</span><br>
-      <span class="cf-w">Agente</span> <span class="cf-b">EMMY</span> <span class="cf-w">reporta</span> <span class="cf-g">acceso</span> <span class="cf-b">sin</span> <span class="cf-w">incidencias</span><span class="cf-w">.</span><br>
-      <span class="cf-b">Código</span> <span class="cf-w">de</span> <span class="cf-g">entrada</span><span class="cf-w">:</span>
-      <span class="cf-r cf-big"> 6</span><span class="cf-w">.</span><br>
-      <span class="cf-g">Transmisión</span> <span class="cf-b">finalizada</span><span class="cf-w">.</span>
+      <span class="cf-g">Inicio</span> <span class="cf-w">de</span> <span class="cf-b">transmisión</span> <span class="cf-w">cifrada</span><span class="cf-w">.</span><br>
+      <span class="cf-b">Protocolo</span> <span class="cf-g">activo</span><span class="cf-w">.</span> <span class="cf-w">Agente</span> <span class="cf-g">EMMY</span> <span class="cf-b">en</span> <span class="cf-w">posición</span><span class="cf-w">.</span><br>
+      <span class="cf-b">Hora</span> <span class="cf-g">de</span> <span class="cf-w">acceso</span><span class="cf-b">:</span> <span class="cf-r">las</span> <span class="cf-r">6</span> <span class="cf-r">en</span> <span class="cf-r">punto</span><span class="cf-w">.</span><br>
+      <span class="cf-w">Confirmación</span> <span class="cf-b">de</span> <span class="cf-g">entrada</span> <span class="cf-w">recibida</span><span class="cf-w">.</span><br>
+      <span class="cf-b">Canal</span> <span class="cf-g">cerrado</span><span class="cf-w">.</span> <span class="cf-b">Fin</span> <span class="cf-w">de</span> <span class="cf-g">transmisión</span><span class="cf-w">.</span>
     </div>
     <button class="btn btn-dark" id="filter-btn" onclick="toggleFilter()" style="margin-bottom:14px">🔴 ACTIVAR FILTRO ROJO</button>
-    <p style="font-size:12px;color:var(--dim)">¿Qué número aparece en el canal rojo?</p>
+    <p style="font-size:12px;color:var(--dim)">Aplica el filtro. En el canal rojo hay una hora exacta. ¿A qué hora accedió el agente?</p>
     <input id="i-p5" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="→">
     <div id="e-p5" class="err"></div>
     <button class="btn" onclick="check('p5')">CONFIRMAR</button>
@@ -333,7 +333,7 @@ hr{border:none;border-top:1px solid #1a1a1a;margin:18px 0}
       <p>Veinte años en el Vault. Empleado nº 001. Desapareció sin dejar rastro — excepto en su taquilla personal. Para abrirla, necesitas el código con el que la registró.</p>
     </div>
     <div class="lockers" id="locker-grid"></div>
-    <p style="font-size:12px;color:var(--dim)">Localiza la taquilla del <span class="y">Sr. Rai S.J</span> e introduce el número de su legado.</p>
+    <p style="font-size:12px;color:var(--dim)">Localiza físicamente la taquilla del <span class="y">Sr. Rai S.J</span> en el local. El número de su legado está en ella.</p>
     <input id="i-p7" class="inp" type="number" inputmode="numeric" placeholder="legado →">
     <div id="e-p7" class="err"></div>
     <button class="btn" onclick="check('p7')">ABRIR TAQUILLA</button>
@@ -352,7 +352,7 @@ hr{border:none;border-top:1px solid #1a1a1a;margin:18px 0}
     </div>
     <div class="coord-outer">
       <div class="coord-grid" id="coord-grid"></div>
-      <div class="cg-leg">X = columna · Y = fila · Objetivo: X3, Y4</div>
+      <div class="cg-leg">X = columna · Y = fila</div>
     </div>
     <input id="i-p8" class="inp" type="number" inputmode="numeric" maxlength="2" placeholder="valor en (3,4) →">
     <div id="e-p8" class="err"></div>
@@ -392,7 +392,7 @@ hr{border:none;border-top:1px solid #1a1a1a;margin:18px 0}
     </div>
     <div class="ov-wrap" id="ov-wrap">
       <div class="ov-a">REGISTRO CLASIFICADO — VAULT OPS<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>Fecha: [REDACTED]<br>Agente responsable: [REDACTED]<br>Misión: Operación Recluta<br><br>CÓDIGO DE EXTRACCIÓN:<br>▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓<br><br>[ACCESO DENEGADO]</div>
-      <div class="ov-b"><div class="ov-num">5</div></div>
+      <div class="ov-b"><div style="text-align:center;padding:20px"><div style="font-size:13px;color:var(--dim);letter-spacing:2px;margin-bottom:10px">CÓDIGO DE EXTRACCIÓN</div><div style="font-size:38px;font-weight:700;color:var(--y);letter-spacing:6px">CINCO</div><div style="font-size:10px;color:var(--dim);margin-top:8px">introduce el dígito</div></div></div>
     </div>
     <button class="btn btn-dark" id="ov-btn" onclick="toggleOverlay()" style="margin-bottom:14px">📄 SUPERPONER DOCUMENTOS</button>
     <p style="font-size:12px;color:var(--dim)">¿Qué código de extracción aparece?</p>
@@ -589,17 +589,17 @@ const OK = {
 
 /* Pistas de error por puzzle */
 const HINTS = {
-  p1:  'Activa la linterna UV y busca el número de sector.',
+  p1:  'Activa la UV. La pista está en las palabras, no en un número directo.',
   p2:  'Usa la tabla morse. Son tres grupos de señales.',
   p3:  'Lleva el móvil a un espejo del local y usa Google Translate en modo cámara.',
   p4:  'Recorre todo el local contando los lingotes físicos.',
-  p5:  'Activa el filtro rojo. Solo queda un número.',
+  p5:  'Activa el filtro rojo y lee el canal resultante. Busca una hora.',
   p6:  'Busca EMMY en la carta. Suma los dígitos de su número.',
   p7:  'Busca "Sr. Rai S.J" en las taquillas físicas del local.',
-  p8:  'Localiza columna 3, fila 4 en la cuadrícula.',
+  p8:  'X es columna, Y es fila. Localiza el punto exacto en la cuadrícula.',
   p9:  'Compara FILE 001 y FILE 002 en la carta. Aplica la ecuación.',
-  p10: 'Pulsa "Superponer documentos" y lee el número que aparece.',
-  p11: 'Vocal=1, Consonante=2. Suma V+A+U+L+T.',
+  p10: 'Superpón los documentos. El código aparece en texto — conviértelo a dígito.',
+  p11: 'Aplica la tabla letra por letra y suma los valores.',
   p12: 'Llama al teléfono fijo del local y escucha hasta el final.',
   p13: 'Fotografía el cuadro marcado con ★ y examina bien la imagen.',
   p14: 'El código está físicamente en la puerta de la cámara.',
@@ -731,7 +731,7 @@ function renderLockers(){
   const data=[
     {n:'M.E & J.E',v:'Punto Firme 02'},
     {n:'A.V - S.T',v:'Herencia 15'},
-    {n:'Sr. Rai S.J',v:'Legado 70',hl:true},
+    {n:'Sr. Rai S.J',v:'Legado ??',hl:true},
     {n:'R.M & Co.',v:'Fondos 33'},
     {n:'L.F - B.K',v:'Reserva 44'},
     {n:'P.O & H.N',v:'Capital 28'},
@@ -753,8 +753,7 @@ function renderCoordGrid(){
   for(let r=1;r<=6;r++){
     h+=`<div class="cg-h">${r}</div>`;
     for(let c=1;c<=6;c++){
-      const t=(c===CX&&r===CY);
-      h+=`<div class="cg-c${t?' target':''}">${GRID[r-1][c-1]}</div>`;
+      h+=`<div class="cg-c">${GRID[r-1][c-1]}</div>`;
     }
   }
   el.innerHTML=h;
@@ -762,13 +761,11 @@ function renderCoordGrid(){
 
 /* ═══ RENDER: CIPHER VAULT ═══ */
 function renderCipher(){
-  const letters=[
-    {l:'V',t:'C',v:2},{l:'A',t:'V',v:1},{l:'U',t:'V',v:1},{l:'L',t:'C',v:2},{l:'T',t:'C',v:2}
-  ];
-  document.getElementById('cipher-word').innerHTML=letters.map(x=>`
+  const letters=['V','A','U','L','T'];
+  document.getElementById('cipher-word').innerHTML=letters.map(l=>`
     <div class="cl">
-      <div class="cl-l">${x.l}</div>
-      <div class="cl-v" style="color:${x.t==='V'?'var(--y)':'var(--dim)'}">${x.v}</div>
+      <div class="cl-l">${l}</div>
+      <div class="cl-v" style="color:var(--dim)">?</div>
     </div>`).join('');
 }
 
